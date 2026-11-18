@@ -1,0 +1,85 @@
+/* 디자인 토큰 — 수하물 꼬리표 세계
+   감열지 흰 바탕 · 카본 잉크 · 상태 띠 3색(잉크=예약 완료, 주황=미예약, 노랑=현장 결제)
+   색은 이 파일에서만 정의한다. 컴포넌트는 의미 토큰만 쓴다. */
+
+:root {
+  color-scheme: light dark;
+
+  /* 바탕과 잉크 (라이트: 햇빛 아래 최대 대비) */
+  --ground: #eceee9;        /* 앱 바탕: 꼬리표가 놓인 카운터 */
+  --tag: #ffffff;           /* 꼬리표 감열지 */
+  --tag-sunk: #f5f6f3;      /* 꼬리표 안 조각(stub) */
+  --ink: #121311;           /* 본문 18.6:1 on tag */
+  --ink-2: #41443f;         /* 보조 9.9:1 */
+  --ink-3: #5d6159;         /* 메타·지난 일정 6.3:1(바탕 위 5.4:1) */
+  --rule: #d3d6cf;          /* 구분선 */
+  --rule-strong: #121311;
+
+  /* 상태 띠 */
+  --band-booked: #121311;   --on-band-booked: #ffffff;
+  --band-open: #b93d0a;     --on-band-open: #ffffff;      /* 미예약: 흰 글씨 5.6:1 */
+  --band-onsite: #f2c200;   --on-band-onsite: #121311;    /* 현장 결제: 잉크 글씨 11.1:1 */
+  --open-text: #a3360a;     /* 주황 글자(흰 바탕 6.8:1) */
+
+  /* 진행 중 행: 잉크 반전 */
+  --live-bg: #121311;  --live-fg: #ffffff;  --live-fg-2: #c9ccc4;
+
+  --focus: #121311;
+  --scrim: rgb(18 19 17 / 0.5);
+  --lift: 0 1px 0 rgb(18 19 17 / 0.06), 0 10px 24px -14px rgb(18 19 17 / 0.45);
+
+  /* 글꼴: 오프라인이라 시스템 글꼴. iOS = SF Pro + Apple SD Gothic Neo */
+  --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* 글자 크기: rem 기준(html이 iOS 글자 크기 설정을 따름, 기본 17px) */
+  --t-xs: 0.8125rem;   /* 13 — 탭 라벨·메타 최소 */
+  --t-sm: 0.875rem;    /* 15 */
+  --t-md: 1rem;        /* 17 본문 */
+  --t-lg: 1.25rem;     /* 21 카드 제목 */
+  --t-xl: 1.625rem;    /* 28 행선지 */
+  --t-2xl: 2.375rem;   /* 40 다음 출발 시각 */
+  --t-3xl: 3.25rem;    /* 55 D-day 숫자 */
+  --lh-tight: 1.15;
+  --lh: 1.45;
+
+  /* 간격: 4pt 리듬 */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  --gutter: 16px;
+
+  --r-sm: 6px;
+  --r: 10px;     /* 꼬리표 모서리 */
+  --r-lg: 14px;
+
+  --hit: 48px;   /* 최소 터치 높이(iOS 44pt 이상) */
+  --tabbar-h: 56px;
+  --appbar-h: 52px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 120ms;  /* 누름 피드백 */
+  --dur-2: 280ms;  /* 배너 등장 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0b0c0b;
+    --tag: #191b19;
+    --tag-sunk: #121412;
+    --ink: #f1f2ee;          /* 15.4:1 on tag */
+    --ink-2: #c3c6be;        /* 10.0:1 */
+    --ink-3: #9b9f97;        /* 6.4:1 */
+    --rule: #30332e;
+    --rule-strong: #f1f2ee;
+
+    --band-booked: #f1f2ee;  --on-band-booked: #0b0c0b;
+    --band-open: #ff8a4c;    --on-band-open: #1c0a00;
+    --band-onsite: #ffd43b;  --on-band-onsite: #1a1400;
+    --open-text: #ff9a63;
+
+    --live-bg: #f1f2ee;  --live-fg: #0b0c0b;  --live-fg-2: #3e413b;
+
+    --focus: #f1f2ee;
+    --scrim: rgb(0 0 0 / 0.6);
+    --lift: 0 1px 0 rgb(255 255 255 / 0.04), 0 10px 24px -14px rgb(0 0 0 / 0.9);
+  }
+}

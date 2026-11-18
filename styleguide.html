@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>컴포넌트 기준</title>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <style>
+    .sg-swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+    .sg-sw { border-radius: var(--r-sm); padding: var(--s3) var(--s2); font-size: var(--t-xs); font-weight: 700; min-height: 64px; display: flex; align-items: flex-end; }
+    .sg-scale p { line-height: var(--lh-tight); font-weight: 800; }
+    .update.sg-static { position: static; }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-now" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-days" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M8 3.5h8l3 3V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6.5z"/><circle cx="12" cy="7.5" r="1.5"/><path d="M5 15h14"/></symbol>
+    <symbol id="i-money" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="1.5"/><circle cx="12" cy="12" r="2.75"/><path d="M6 9.5v5M18 9.5v5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6.5l1.5 1.5L8 5.5M4 12.5l1.5 1.5L8 11.5M4 18.5l1.5 1.5L8 17.5M11 7h9M11 13h9M11 19h9"/></symbol>
+    <symbol id="i-nav" viewBox="0 0 24 24"><path d="M3.5 11 20 4l-7 16.5-2.2-7.3z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  </svg>
+
+  <header class="appbar">
+    <div class="appbar__row">
+      <h1 class="appbar__title">컴포넌트 기준</h1>
+      <p class="appbar__meta">가상 데이터</p>
+    </div>
+  </header>
+
+  <main class="view">
+    <section class="section">
+      <h2 class="section__title">상태 띠 3색</h2>
+      <div class="sg-swatches">
+        <div class="sg-sw" style="background:var(--band-booked);color:var(--on-band-booked)">예약 완료</div>
+        <div class="sg-sw" style="background:var(--band-open);color:var(--on-band-open)">미예약</div>
+        <div class="sg-sw" style="background:var(--band-onsite);color:var(--on-band-onsite)">현장 결제 필요</div>
+      </div>
+      <p class="note">색만으로 구분하지 않는다. 띠와 칩에는 항상 상태 글자가 함께 있다.</p>
+    </section>
+
+    <section class="section sg-scale">
+      <h2 class="section__title">글자 크기</h2>
+      <p style="font-size:var(--t-3xl)">D-88</p>
+      <p style="font-size:var(--t-2xl)">07:25</p>
+      <p style="font-size:var(--t-xl)">Estação Norte</p>
+      <p style="font-size:var(--t-lg)">카드 제목 21</p>
+      <p style="font-size:var(--t-md);font-weight:400">본문 17 — 걸으면서 한 번에 읽히는 길이로 쓴다.</p>
+      <p style="font-size:var(--t-sm);font-weight:600;color:var(--ink-2)">보조 15</p>
+      <p style="font-size:var(--t-xs);font-weight:600;color:var(--ink-3)">메타 13</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">지금</h2>
+      <div class="now">
+        <p class="now__time">12:30<small>까지</small></p>
+        <p class="now__title">전망 타워 관람</p>
+        <p class="now__meta">14:00-16:00 · 전망 타워</p>
+      </div>
+      <div class="now now--idle">
+        <p class="now__time">—</p>
+        <p class="now__title">진행 중인 일정 없음</p>
+        <p class="now__meta">다음 일정까지 28분</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">다음 꼬리표</h2>
+      <article class="tag" data-state="booked">
+        <div class="tag__band"><span>예약 완료</span><span class="tag__band-meta">다음</span></div>
+        <div class="tag__body">
+          <p class="tag__route">Estação Sul 출발</p>
+          <h3 class="tag__dest">Estação Norte</h3>
+          <div class="tag__when">
+            <p class="tag__time">10:09<small>현지 시각</small></p>
+            <p class="tag__countdown">1시간 20분<small>남음</small></p>
+          </div>
+          <dl class="tag__fields">
+            <div class="field"><dt class="field__label">편·열차</dt><dd class="field__value">IC 507</dd></div>
+            <div class="field"><dt class="field__label">좌석</dt><dd class="field__value">3호차 12·13</dd></div>
+            <div class="field"><dt class="field__label">플랫폼</dt><dd class="field__value">3</dd></div>
+          </dl>
+        </div>
+        <div class="tag__actions"><a class="btn" href="#">
+          <svg class="icon" aria-hidden="true"><use href="#i-nav"/></svg>길안내</a></div>
+        <div class="tag__perf" aria-hidden="true"></div>
+        <div class="tag__stub"><span class="tag__ref-label">예약 번호</span><span class="tag__ref">TR-55</span></div>
+      </article>
+
+      <article class="tag" data-state="open">
+        <div class="tag__band"><span>미예약</span><span class="tag__band-meta">다음</span></div>
+        <div class="tag__body">
+          <p class="tag__route">열차 시각 미정</p>
+          <h3 class="tag__dest">도시 A → 도시 B 고속열차</h3>
+          <div class="tag__when">
+            <p class="tag__time tag__time--label">10:00-11:00대<small>현지 시각</small></p>
+            <p class="tag__countdown">2일 3시간<small>남음</small></p>
+          </div>
+        </div>
+        <div class="tag__perf" aria-hidden="true"></div>
+        <div class="tag__stub"><span class="tag__ref-label">예약 번호</span><span class="tag__ref tag__ref--none">아직 없음</span></div>
+      </article>
+
+      <article class="tag" data-state="onsite">
+        <div class="tag__band"><span>현장 결제 필요</span><span class="tag__band-meta">€120.50</span></div>
+        <div class="tag__body">
+          <p class="tag__route">체크인 15:00부터</p>
+          <h3 class="tag__dest">Casa Gama</h3>
+          <div class="tag__when">
+            <p class="tag__time tag__time--label">19:00-20:00경<small>현지 시각</small></p>
+            <p class="tag__countdown">45분<small>남음</small></p>
+          </div>
+        </div>
+        <div class="tag__actions">
+          <a class="btn" href="#"><svg class="icon" aria-hidden="true"><use href="#i-nav"/></svg>길안내</a>
+          <a class="btn btn--line" href="#">예약 보기</a>
+        </div>
+        <div class="tag__perf" aria-hidden="true"></div>
+        <div class="tag__stub"><span class="tag__ref-label">예약 번호</span><span class="tag__ref tag__ref--none">미확인</span></div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section__head"><h2 class="section__title">오늘 · 남쪽 → 북쪽</h2><p class="section__aside">03.02 (화)</p></div>
+      <ol class="board">
+        <li class="board__row" data-when="past"><p class="board__time">09:00<small>오전-체크아웃</small></p><div class="board__main"><p class="board__title">동네 산책 / Hotel Delta 체크아웃</p></div></li>
+        <li class="board__row" data-when="now"><p class="board__time">10:09<small>12:58 도착</small></p><div class="board__main"><p class="board__title">Estação Sul → Estação Norte</p><p class="board__detail">IC 507 · 3호차</p><p class="board__chips"><span class="chip chip--booked">예약 완료</span></p></div></li>
+        <li class="board__row" data-when="next"><p class="board__time">14:00</p><div class="board__main"><p class="board__title">전망 타워 관람 → 강변 산책</p><p class="board__chips"><span class="chip chip--open">미예약</span></p></div></li>
+        <li class="board__row" data-when="next"><p class="board__time">17:30<small>해질 무렵</small></p><div class="board__main"><p class="board__title">강변 광장 → 저녁</p><p class="board__detail">날씨 나쁠 때: 실내 시장</p></div></li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">날짜 탭</h2>
+      <div class="days" role="tablist" aria-label="날짜">
+        <button class="days__item" role="tab" aria-selected="false">월<b>1</b></button>
+        <button class="days__item" role="tab" aria-selected="true" data-today="true">화<b>2</b></button>
+        <button class="days__item" role="tab" aria-selected="false">수<b>3</b></button>
+        <button class="days__item" role="tab" aria-selected="false">목<b>4</b></button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">현지에서 낼 돈</h2>
+      <div class="list">
+        <label class="list__row check">
+          <input type="checkbox">
+          <span class="check__box"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <span class="list__main"><span class="list__title">도시세 · Hotel Delta</span><span class="list__sub">03.01 · 현금 필요</span></span>
+          <span class="amount"><span class="amount__orig">€8</span><span class="amount__krw">약 13,600원</span></span>
+        </label>
+        <label class="list__row check">
+          <input type="checkbox" checked>
+          <span class="check__box"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <span class="list__main"><span class="list__title">객실 · Casa Gama</span><span class="list__sub">03.02 · 결제 완료로 표시함</span></span>
+          <span class="amount"><span class="amount__orig">€120.50</span><span class="amount__krw">약 204,850원</span></span>
+        </label>
+        <div class="list__row">
+          <span class="list__main"><span class="list__title">도시세 · Casa Gama</span><span class="list__sub">확인 필요 · 참고액 €6</span></span>
+          <span class="amount amount--unknown"><span class="amount__orig">미확인</span></span>
+        </div>
+        <div class="total"><span class="total__label">남은 합계</span><span class="total__value">€8<small>약 13,600원 · 환율 기준 11.18</small></span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section__title">버튼 · 빈 상태 · 배너</h2>
+      <div style="display:flex;gap:var(--s2)"><button class="btn" type="button">길안내</button><button class="btn btn--line" type="button">예약 보기</button><button class="btn" type="button" disabled>준비 중</button></div>
+      <p class="empty">이날은 아직 일정이 없어요</p>
+      <div class="update sg-static"><span class="update__text">새 일정 데이터가 있어요</span><button class="btn" type="button">업데이트</button></div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="주요 화면">
+    <a class="tabbar__item" href="#" aria-current="page"><svg class="icon"><use href="#i-now"/></svg>지금</a>
+    <a class="tabbar__item" href="#"><svg class="icon"><use href="#i-days"/></svg>일정</a>
+    <a class="tabbar__item" href="#"><svg class="icon"><use href="#i-tag"/></svg>예약</a>
+    <a class="tabbar__item" href="#"><svg class="icon"><use href="#i-money"/></svg>낼 돈</a>
+    <a class="tabbar__item" href="#"><svg class="icon"><use href="#i-list"/></svg>준비</a>
+  </nav>
+</body>
+</html>
