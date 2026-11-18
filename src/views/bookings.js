@@ -48,8 +48,10 @@ function bookingTag(ctx, b) {
   const t = pays.length ? bookingTotals(pays, ctx.paid) : null;
   let rows = '';
   if (b.kind === 'hotel') {
-    rows += kvRow('체크인', `${dateLabel(b.checkIn)} ${b.checkInFrom ? `${b.checkInFrom}부터` : '<small>시각 미확인</small>'}`);
-    rows += kvRow('체크아웃', `${dateLabel(b.checkOut)} ${b.checkOutBy ? `${b.checkOutBy}까지` : '<small>시각 미확인</small>'}`);
+    // 예약 확인서 시각이 없으면 호텔 공식 일반 안내를 따로 표시(이 예약의 조건·늦은 도착 보장 아님)
+    const general = (t, suffix) => (t ? `<small>예약 시각 미확인 · 호텔 일반 안내 ${t}${suffix}(예약 조건 아님)</small>` : '<small>시각 미확인</small>');
+    rows += kvRow('체크인', `${dateLabel(b.checkIn)} ${b.checkInFrom ? `${b.checkInFrom}부터` : general(b.generalPolicy?.checkInFrom, '부터')}`);
+    rows += kvRow('체크아웃', `${dateLabel(b.checkOut)} ${b.checkOutBy ? `${b.checkOutBy}까지` : general(b.generalPolicy?.checkOutBy, '까지')}`);
     rows += kvRow('객실', `${esc(b.room ?? '미확인')} · 조식 ${yesNo(b.breakfast, '포함', '미포함')}${b.nights ? ` · ${b.nights}박` : ''}`);
     if (b.refundability === 'nonrefundable') rows += kvRow('취소', '환불 불가');
     if (b.freeCancelUntil) rows += kvRow('무료 취소', `${dateLabel(b.freeCancelUntil)}까지`);
@@ -80,7 +82,11 @@ function bookingTag(ctx, b) {
   if (b.notes.length) rows += kvRow('메모', b.notes.map(esc).join('<br>'));
   const shown = b.voucher && ctx.openVouchers?.get(b.voucher);
   const showImg = shown && shown.type.startsWith('image/');
-  const links = linksOf(b.contact) + (b.voucher && !showImg ? `<button class="btn btn--sm" type="button" data-voucher="${esc(b.voucher)}" data-type="${esc(b.voucherType ?? '')}">${icon('file', 'icon icon--sm')}바우처 보기</button>` : '');
+  // PDF 등은 복호화가 끝나면 Blob 링크(새 창이 막혔거나 늦어도 사용자가 바로 누를 수 있게)
+  const voucherCtl = !b.voucher || showImg ? ''
+    : shown ? `<a class="btn btn--sm" href="${esc(shown.url)}" target="_blank" rel="noopener" data-voucher-link="${esc(b.voucher)}">${icon('file', 'icon icon--sm')}바우처 열기</a>`
+    : `<button class="btn btn--sm" type="button" data-voucher="${esc(b.voucher)}" data-type="${esc(b.voucherType ?? '')}">${icon('file', 'icon icon--sm')}바우처 보기</button>`;
+  const links = linksOf(b.contact) + voucherCtl;
   return `
   <article class="tag" data-state="${badge.state}" id="b-${esc(b.id)}">
     <div class="tag__band"><span>${badge.label}</span><span class="tag__band-meta">${KIND[b.kind] ?? ''}</span></div>

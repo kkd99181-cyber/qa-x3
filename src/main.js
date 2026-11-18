@@ -78,21 +78,15 @@ function showVersion() {
   ctl.postMessage('VERSION');
 }
 
-let memoTimer = null;
 function bindViewEvents() {
   const view = $('view');
   view.addEventListener('change', (e) => {
     const t = e.target;
     if (t.dataset.check) { setChecked(t.dataset.check, t.checked); render(); }
     else if (t.dataset.paid) { setPaid(t.dataset.paid, t.checked); render(); }
-    else if (t.dataset.memo) { clearTimeout(memoTimer); setMemo(t.dataset.memo, t.value); }
   });
-  view.addEventListener('input', (e) => {
-    const t = e.target;
-    if (!t.dataset.memo) return;
-    clearTimeout(memoTimer);
-    memoTimer = setTimeout(() => setMemo(t.dataset.memo, t.value), 300);
-  });
+  // 메모는 입력할 때마다 바로 저장한다(앱이 곧바로 닫히거나 새로고침돼도 남도록)
+  view.addEventListener('input', (e) => { if (e.target.dataset.memo) setMemo(e.target.dataset.memo, e.target.value); });
   view.addEventListener('toggle', (e) => {
     const key = e.target.dataset?.row;
     if (key) { if (e.target.open) openRows.add(key); else openRows.delete(key); }
@@ -135,11 +129,15 @@ async function showVoucher(btn) {
   const token = session;
   btn.disabled = true;
   try {
-    const url = await openAsset(name, type);
+    let url = await openAsset(name, type);
     if (token !== session || locked) { URL.revokeObjectURL(url); return; } // 그사이 잠금·화면 이동 → 버림
-    openVouchers.set(name, { url, type });
-    if (type.startsWith('image/')) render(); // 화면 안에 표시(다시 그려도 유지)
-    else window.open(url, '_blank', 'noopener');
+    const had = openVouchers.get(name);
+    if (had) { URL.revokeObjectURL(url); url = had.url; } // 다시 그린 버튼으로 두 번 요청된 경우: 먼저 연 Blob 하나만 유지
+    else openVouchers.set(name, { url, type });
+    // 이미지는 화면 안에, 그 밖(PDF)은 "바우처 열기" 링크로 표시(다시 그려도 유지).
+    // 복호화가 늦어 사용자 동작이 만료되면 새 창이 막힐 수 있어서, 아직 활성일 때만 바로 연다(빈 창을 미리 열지 않음)
+    if (!type.startsWith('image/') && navigator.userActivation?.isActive !== false) window.open(url, '_blank', 'noopener');
+    render();
   } catch (err) {
     if (token !== session || locked) return;
     const slot = btn.closest('.tag')?.querySelector('[data-voucher-slot]');

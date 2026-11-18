@@ -2,12 +2,15 @@
 export function setupServiceWorker({ banner, button }) {
   if (!('serviceWorker' in navigator)) return;
   let reloading = false;
+  // 첫 설치의 clients.claim()은 같은 버전이 제어권만 얻는 것이라 새로고침하지 않는다(잠금 화면 입력 보존)
+  let controlled = !!navigator.serviceWorker.controller;
   const show = (reg) => {
     if (!reg.waiting || !navigator.serviceWorker.controller) return;
     banner.hidden = false;
     button.onclick = () => { button.disabled = true; reg.waiting?.postMessage('SKIP_WAITING'); };
   };
   navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!controlled) { controlled = true; return; }
     if (reloading) return;
     reloading = true;
     location.reload();
